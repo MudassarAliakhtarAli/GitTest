@@ -13,7 +13,7 @@ permissions:
 
 jobs:
   Release-solution-ALMLab:
-    uses: ./.github/workflows/release-solution-to-prod-with-inputs.yml
+    uses: ./.github/workflows/export-solution.yml
     with:
       # Use the dynamically provided solution name from workflow dispatch input
       solution_name: ${{ github.event.inputs.solution_name }}
