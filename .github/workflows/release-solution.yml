@@ -1,0 +1,31 @@
+name: Release Pipeline to QA/DevM/UAT/Prod
+
+on:
+  workflow_dispatch:  # Enables manual triggering and allows user input
+    inputs:
+      solution_name:
+        description: 'Name of the Power Platform solution to release'
+        required: true
+        default: 'GitSol1'  # Default solution name, can be changed
+
+permissions:
+  contents: write
+
+jobs:
+  Release-solution-ALMLab:
+    uses: ./.github/workflows/release-solution-to-prod-with-inputs.yml
+    with:
+      # Use the dynamically provided solution name from workflow dispatch input
+      solution_name: ${{ github.event.inputs.solution_name }}
+      
+      # Update your environment URLs here
+      BUILD_ENVIRONMENT_URL: https://dev-alii.crm.dynamics.com/  
+      DVM_ENVIRONMENT_URL: https://dvm-alii.crm.dynamics.com/  
+      QA_ENVIRONMENT_URL: https://QA-alii.crm.dynamics.com/
+      #UAT_ENVIRONMENT_URL: https://qa-aliii.crm.dynamics.com/
+      PRODUCTION_ENVIRONMENT_URL: https://prod-alii.crm.dynamics.com/
+      
+      CLIENT_ID: 00f217c4-7c6b-40a7-b395-488e05d3ee0a
+      TENANT_ID: d36301cc-6924-4762-a217-17ab64ba92ff   
+    secrets:
+      envSecret: ${{ secrets.SECRET_ID }}
